@@ -1,6 +1,9 @@
 <?php
+	$username = $_POST["username"];
+	$email = $_POST["email"];
+	$password = $_POST["password"];
+	$password1 = $_POST["password1"];
 	//define variables and set to empty values
-	$username_err = $email_err = $password_err = "";
 	$username = $email = $password = $password1 = "";
 
 	//If the input is empty, an error message is stored in the different error variables
@@ -10,22 +13,24 @@
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (empty($_POST["username"])) {
-			$username_err = "usernsme is reguired";
+			echo "username is reguired";
 		}else{
 			$username = test_input($_POST["username"]);
 		}
 
 		if (empty($_POST["email"])) {
-			$email_err = "email is reguired";
+			echo "email is reguired";
 		}else{
 			$email = test_input($_POST["email"]);
 		}
 
 		if (empty($_POST["password"]) || empty($_POST["password1"])) {
-			$password_err = "password is reguired";
+			echo "password is reguired";
 		}else{
 			$password = test_input($_POST["password"]);
 		}
+
+		//echo $username,$email,$password;
 	}
 
 //this function filters the user input and guards against attacks

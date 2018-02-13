@@ -1,51 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Sign in</title>
-	<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
-</head>
-<body>
-	<!--navigation bar -->
-	<nav class="navbar navbar-inverse fixed-top">
-	  <div class="container">
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span> 
-	      </button>
-	      <a class="navbar-brand" href="#">BlogMe</a>
-	    </div>
-	    <div class="collapse navbar-collapse" id="myNavbar">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#"><i class="fa fa-home"></i></a></li>
-	        <li><a href="#">Posts</a></li>
-	        <li><a href="#">Notification</a></li> 
-	        <li><a href="#">About</a></li> 
-	      </ul>
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-	        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	      </ul>
-	    </div>
-	  </div>
-	</nav>
+<?php
+	require "connect.php";
 
-	<div class="container">
-		<form class="form-horizontal" role="form" action="signup.php" method="post">
-			<div class="form-group">
-				<label>Email :</label>
-				<input type="email" name="email" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>Password :</label>
-				<input type="password" class="form-control" name="password">
-			</div>
-			<button class="btn btn-default">Sign In</button>
-		</form>
-	</div>
+	$email = $_POST["email"];
+	$password = $_POST["password"];
 
-</body>
-</html>
+	$email = $password = "";
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+		if (empty($_POST["email"])) {
+			echo "email is reguired";
+		}else{
+			$email = test_input($_POST["email"]);
+		}
+
+		if (empty($_POST["password"])) {
+			echo "password is reguired";
+		}else{
+			$password = test_input($_POST["password"]);
+		}
+
+		//this is where the user input is cross checked with data in the database
+
+		$sql = "SELECT `email`, `password` FROM `users` WHERE email='$email' AND password='$password'";
+		$result = mysqli_query($conn, $sql) or die(msql_error($conn));
+		$count = mysqli_num_rows($result);
+
+		// the user input is checked if correct the user is logged in
+		if ($count == 1) {
+		    echo "login success";
+		} else {
+		    echo "Error: " ."invalid login credentials";
+		}
+
+		$conn->close();
+
+	}
+
+//this function filters the user input and guards against attacks
+// it takes the user input as its parameter
+function test_input($data) {
+  $data = trim($data);//strip unnecessary characters
+  $data = stripslashes($data);// removes backslashes
+  $data = htmlspecialchars($data);// invalidates tags in the user input
+  return $data;
+}
+
+?>

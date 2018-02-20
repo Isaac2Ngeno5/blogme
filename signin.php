@@ -1,4 +1,7 @@
 <?php
+	//start session
+	session_start();
+
 	require "connect.php";
 
 	$email = $_POST["email"];
@@ -22,16 +25,26 @@
 
 		//this is where the user input is cross checked with data in the database
 
-		$sql = "SELECT `email`, `password` FROM `users` WHERE email='$email' AND password='$password'";
-		$result = mysqli_query($conn, $sql) or die(msql_error($conn));
-		$count = mysqli_num_rows($result);
+		$sql = "SELECT * FROM `users` WHERE email='$email' AND password='$password'";
+		$result = $conn->query($sql);
 
-		// the user input is checked if correct the user is logged in
-		if ($count == 1) {
-		    echo "login success";
-		} else {
-		    echo "Error: " ."invalid login credentials";
-		}
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_array($result)) {
+        $session_name = $row["username"];
+        session_register($session_name);
+        if (!empty($session_name)) {
+        	echo "Welcome back ".$session_name;
+        }else if (empty($session_name)) {
+        	header("location:signin.html");
+        } else {
+        	echo "yeah!!! whatever bitch!"
+        }
+        
+    }
+} else {
+    echo "0 results";
+}
 
 		$conn->close();
 

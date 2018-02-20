@@ -1,0 +1,8 @@
+create database --
+create a connection --
+create sign up page --
+then create login page --
+write scripts for sign up --
+write script for sign in --
+create sessions
+then create signout script

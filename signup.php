@@ -1,10 +1,7 @@
 <?php
 	require "connect.php";
 
-	$username = $_POST["username"];
-	$email = $_POST["email"];
-	$password = $_POST["password"];
-	$password1 = $_POST["password1"];
+
 	//define variables and set to empty values
 	$username = $email = $password = $password1 = "";
 
@@ -13,7 +10,7 @@
 
 
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	
 		if (empty($_POST["username"])) {
 			echo "username is reguired";
 		}else{
@@ -45,8 +42,7 @@
 
 		$conn->close();
 
-	}
-
+	
 //this function filters the user input and guards against attacks
 // it takes the user input as its parameter
 function test_input($data) {

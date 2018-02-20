@@ -1,3 +1,11 @@
+<?php
+//start session
+session_start();
+
+if (!isset($_SESSION['name'])) {
+	header("signin.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>

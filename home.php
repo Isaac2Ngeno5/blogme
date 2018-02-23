@@ -1,10 +1,12 @@
 <?php
-//start session
-session_start();
+	//start session
+	session_start();
 
-if (!isset($_SESSION['name'])) {
-	header("signin.php");
-}
+	if (empty($_SESSION['username'])) {
+		header("signin.php");
+	}else{
+		echo "Welcome back ".$_SESSION['username'];
+	}
 ?>
 <!DOCTYPE html>
 <html>

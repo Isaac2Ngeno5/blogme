@@ -1,7 +1,4 @@
 <?php
-	//start session
-	session_start();
-
 	require "connect.php";
 
 	$email = $_POST["email"];
@@ -28,23 +25,24 @@
 		$sql = "SELECT * FROM `users` WHERE email='$email' AND password='$password'";
 		$result = $conn->query($sql);
 
-	if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_array($result)) {
-        $session_name = $row["username"];
-        session_register($session_name);
-        if (!empty($session_name)) {
-        	echo "Welcome back ".$session_name;
-        }else if (empty($session_name)) {
-        	header("location:signin.html");
-        } else {
-        	echo "yeah!!! whatever bitch!"
-        }
-        
-    }
-} else {
-    echo "0 results";
-}
+		if ($result->num_rows > 0) {
+		    // output data of each row
+		    while($row = mysqli_fetch_array($result)) {
+		    	//start session
+				session_start();
+		        $_SESSION['username'] = $row["username"];
+		        if (!empty($_SESSION)) {
+		        	header("location: home.php");
+		        }else if (empty($_SESSION)) {
+		        	header("location:signin.html");
+		        } else {
+		        	echo "yeah!!! whatever bitch!"
+		        }
+		        
+		    }
+		} else {
+		    echo "0 results";
+		}
 
 		$conn->close();
 

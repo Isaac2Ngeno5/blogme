@@ -35,7 +35,10 @@
 
 
 		if ($conn->query($sql) === TRUE) {
-		    echo "New record created successfully";
+			session_start();
+			$_SESSION['username'] = $username
+
+		    header("Location:home.php");
 		} else {
 		    echo "Error: " . $sql . "<br>" . $conn->error;
 		}
